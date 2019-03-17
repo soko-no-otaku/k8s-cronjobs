@@ -21,11 +21,11 @@ spec:
   - name: volumes-pvc-example
     steps:
     - - name: download
-        template: rec_hibiki
+        template: hibiki-recorder
     - - name: print
         template: print-message
 
-  - name: rec_hibiki
+  - name: hibiki-recorder
     container:
       image: evoltaro/rec_hibiki:latest
       command: [ruby]
