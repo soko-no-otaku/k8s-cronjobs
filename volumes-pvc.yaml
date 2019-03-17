@@ -21,13 +21,13 @@ spec:
   - name: volumes-pvc-example
     steps:
     - - name: download
-        template: hibiki-recorder
+        template: rec_hibiki
     - - name: print
         template: print-message
 
-  - name: hibiki-recorder
+  - name: rec_hibiki
     container:
-      image: evoltaro/hibiki-recorder:latest
+      image: evoltaro/rec_hibiki:latest
       command: [ruby]
       args: [rec_hibiki.rb, llss]
       volumeMounts:
