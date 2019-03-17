@@ -10,7 +10,7 @@ spec:
   entrypoint: volumes-pvc-example
   volumeClaimTemplates:
   - metadata:
-      name: workdir
+      name: outputdir
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
@@ -20,25 +20,25 @@ spec:
   templates:
   - name: volumes-pvc-example
     steps:
-    - - name: generate
-        template: whalesay
+    - - name: download
+        template: hibiki-recorder
     - - name: print
         template: print-message
 
-  - name: whalesay
+  - name: hibiki-recorder
     container:
-      image: docker/whalesay:latest
-      command: [sh, -c]
-      args: ["echo generating message in volume; cowsay hello world | tee /mnt/vol/hello_world.txt"]
+      image: evoltaro/hibiki-recorder:latest
+      command: [ruby]
+      args: [rec_hibiki.rb, llss]
       volumeMounts:
-      - name: workdir
-        mountPath: /mnt/vol
+      - name: outputdir
+        mountPath: /output
 
   - name: print-message
     container:
       image: alpine:latest
       command: [sh, -c]
-      args: ["echo getting message from volume; find /mnt/vol; cat /mnt/vol/hello_world.txt"]
+      args: ["echo getting message from volume; find /mnt/vol"]
       volumeMounts:
-      - name: workdir
+      - name: outputdir
         mountPath: /mnt/vol
